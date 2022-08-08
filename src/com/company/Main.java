@@ -1,8 +1,8 @@
 package com.company;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -11,41 +11,30 @@ public class Main {
         String bolshieBukvy = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String malBukvy = "abcdefghijklmnopqrstuvwxyz";
         String num = "0123456789";
-        try {
-            FileWriter writer = new FileWriter("alphabet.txt");
 
+        try (FileWriter writer = new FileWriter("alphabet.txt")) {
             for (int i = 0; i < bolshieBukvy.length(); i++) {
-                writer.write("\n" + bolshieBukvy.charAt(i) + " " + malBukvy.charAt(i));
-
+                writer.write(bolshieBukvy.charAt(i) + " " + malBukvy.charAt(i) + "\n");
             }
 
             for (int i = 0; i < num.length(); i++) {
-                writer.write("\n" + num.charAt(i));
-
+                writer.write(num.charAt(i) + "\n");
             }
-
-            writer.close();
-
-        } catch (Exception a) {
+        } catch (IOException a) {
             a.getStackTrace();
-
         }
 
-         FileReader bukvy = null;
-         try {
-            bukvy = new FileReader("alphabet.txt");
-         } catch (FileNotFoundException e) {
+
+        try (FileReader bukvy = new FileReader("alphabet.txt")) {
+            Scanner scanner = new Scanner(bukvy);
+            int i = 1;
+            while (scanner.hasNextLine()) {
+
+                System.out.println(i + " :" + " " + scanner.nextLine());
+                i++;
+            }
+        } catch (IOException e) {
             e.printStackTrace();
-
-         }
-
-         Scanner scanner = new Scanner(bukvy);
-         int i = 0;
-         while (scanner.hasNextLine()) {
-
-             System.out.println(i + " :" + " " + scanner.nextLine());
-            i++;
-
         }
 
     }
